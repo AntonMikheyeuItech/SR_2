@@ -1,0 +1,6 @@
+{
+  "update package": "npm i -g ./",
+  "git": "git status",
+  "git status pluto": "cd .. && cd ./pluto && git status",
+  "git status ui": ["cd ..", "cd ./ui", "git status"]
+}
