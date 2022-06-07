@@ -4,7 +4,7 @@ const { getNextPrevByLayer } = require('./navigate');
 const inputListener = key => {
   const { char } = getCharCode(key);
 
-  const { next, prev } = getNextPrevByLayer();
+  const { next, prev, goInside, goBack } = getNextPrevByLayer();
 
   switch (char) {
       case 's':
@@ -12,6 +12,12 @@ const inputListener = key => {
         break;
       case 'w':
         prev();
+        break;
+      case 'd':
+        goInside();
+        break;
+      case 'a':
+        goBack();
         break;
   };
 }
