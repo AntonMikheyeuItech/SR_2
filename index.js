@@ -1,7 +1,20 @@
 #!/usr/bin/env node
 
-const { renderLayer, structure, initStdIn, inputListener } = require('./src');
+const {
+  renderLayer,
+  initStdIn,
+  inputListener,
+  exitApp,
+  navigate: { address, addSubscrubers },
+  execCommand,
+} = require('./src');
 
-renderLayer(structure, Object.keys(structure)[0]);
+renderLayer(address);
+
+addSubscrubers(renderLayer);
+
+initStdIn(exitApp);
+
+initStdIn(execCommand);
 
 initStdIn(inputListener);

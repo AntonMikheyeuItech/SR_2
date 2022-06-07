@@ -1,49 +1,19 @@
-const { execSync } = require("child_process");
-const { structure, clear } = require('./utils');
-const renderLayer = require('./render_layer');
-
-const { exit, env: { PWD: cwd } } = process;
-
-const exec = command => execSync(command, {
-  cwd,
-  stdio: 'inherit',
-});
-
-let prevKey = Object.keys(structure)[0];
+const { getCharCode } = require('./utils');
+const { getNextPrevByLayer } = require('./navigate');
 
 const inputListener = key => {
-  const char = key && key.toString();
-  const code = char && char.charCodeAt();
+  const { char } = getCharCode(key);
 
-  if (code === 3) {
-    exit(0);
-  }
-
-  if (code === 13) {
-    clear();
-    const runCommand = structure[prevKey];
-
-    if (typeof runCommand === 'string') {
-      exec(runCommand);
-    }
-
-    if (Array.isArray(runCommand)) {
-      exec(runCommand.join(' && '));
-    }
-
-    return;
-  }
+  const { next, prev } = getNextPrevByLayer();
 
   switch (char) {
       case 's':
-        prevKey = Object.keys(structure)[Object.keys(structure).indexOf(prevKey) + 1];
+        next();
         break;
       case 'w':
-        prevKey = Object.keys(structure)[Object.keys(structure).indexOf(prevKey) - 1];
+        prev();
         break;
   };
-
-  renderLayer(structure, prevKey);
 }
 
 module.exports = inputListener;

@@ -1,9 +1,14 @@
 const { clear, writeLine } = require('./utils');
+const { getCurrentLayer } = require('./navigate');
 
-const renderLayer = (obj, key) => {
+const renderLayer = address => {
   clear();
 
-  const keys = Object.keys(obj);
+  const currentLayer = getCurrentLayer();
+
+  const key = address[address.length - 1];
+
+  const keys = Object.keys(currentLayer);
 
   keys.forEach(currentKey => {
     let resultKey = currentKey;
