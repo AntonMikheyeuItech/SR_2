@@ -4,6 +4,7 @@ const writeLine = require('./write_line');
 const initStdIn = require('./init_std_in');
 const getCharCode = require('./get_char_code');
 const exitApp = require('./exit_app');
+const renderManual = require('./manual');
 
 module.exports = {
   clear,
@@ -12,4 +13,5 @@ module.exports = {
   initStdIn,
   getCharCode,
   exitApp,
+  renderManual,
 };

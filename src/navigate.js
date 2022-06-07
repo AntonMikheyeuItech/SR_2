@@ -9,7 +9,7 @@ const callAllSubscrubers = () => subscrubers.forEach(subscruber => subscruber(ad
 const getCurrentLayer = () => address.reduce((acc, key, index, { length }) => {
   if (index === length - 1) return acc;
 
-  return structure[key];
+  return acc[key];
 }, structure);
 
 const addKey = key => {
@@ -30,13 +30,37 @@ const updateCurrentKey = key => {
 const getNextPrevByLayer = () => {
   const currentKey = address[address.length - 1];
 
-  const keys = Object.keys(getCurrentLayer());
+  const currentLayer = getCurrentLayer();
+
+  const keys = Object.keys(currentLayer);
 
   const currentIndex = keys.indexOf(currentKey);
 
   return {
-    next: () => updateCurrentKey(keys[currentIndex + 1]),
-    prev: () => updateCurrentKey(keys[currentIndex - 1]),
+    next: () => {
+      if (currentIndex + 1 === keys.length) return updateCurrentKey(keys[0]);
+
+      updateCurrentKey(keys[currentIndex + 1]);
+    },
+    prev: () => {
+      if (currentIndex - 1 < 0) return updateCurrentKey(keys[keys.length - 1]);
+
+      updateCurrentKey(keys[currentIndex - 1]);
+    },
+    goInside: () => {
+      const nextLayer = currentLayer[currentKey];
+
+      if (Array.isArray(nextLayer) || typeof nextLayer === 'string') return;
+
+      const newKey = Object.keys(nextLayer)[0];
+
+      addKey(newKey);
+    },
+    goBack: () => {
+      if (address.length > 1) {
+        removeLastKey();
+      }
+    },
   }
 };
 
